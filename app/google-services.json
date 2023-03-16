@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "427636881419",
+    "project_id": "beevrationapp",
+    "storage_bucket": "beevrationapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427636881419:android:592813f65f09abe94caf0e",
+        "android_client_info": {
+          "package_name": "com.example.beevration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427636881419-si8motetfmkd7tcb6o9t5jnva9ac77ip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAARi6MkpSGNHtNpD5rS3ECbvIFgfJPwWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427636881419-si8motetfmkd7tcb6o9t5jnva9ac77ip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
