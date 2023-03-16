@@ -1,49 +1,35 @@
-package com.example.beevrationapp.database
-
 import android.os.Bundle
-import android.widget.Toast
-import androidx.databinding.DataBindingUtil.setContentView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.beevration.R
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.beevrationapp.database.fetchEnergyHarvesterData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-data class EnergyData(val energy: Int) {
-    private lateinit var energyService: EnergyService
+class EnergyData : AppCompatActivity() {
+
+    private lateinit var timestampTextView: TextView
+    private lateinit var voltageTextView: TextView
+    private lateinit var currentTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val retrofit = Retrofit.Builder()
-                //hindi ko alam ilalagay dito, siguro manggagaling to sa prototype?
-            .baseUrl("http://<IP_ADDRESS>:<PORT>/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        timestampTextView = findViewById(R.id.timestampTextView)
+        voltageTextView = findViewById(R.id.voltageTextView)
+        currentTextView = findViewById(R.id.currentTextView)
 
-        energyService = retrofit.create(EnergyService::class.java)
+        CoroutineScope(Dispatchers.Main).launch {
+            val url = "http://your_node_mcu_ip_address/data" // Replace with your NodeMCU IP address
+            val data = fetchEnergyHarvesterData(url)
 
-        refreshButton.setOnClickListener {
-            getEnergyData()
+            data?.let {
+                timestampTextView.text = "Timestamp: ${it.timestamp}"
+                voltageTextView.text = "Voltage: ${it.voltage} V"
+                currentTextView.text = "Current: ${it.current} A"
+            }
         }
     }
-
-    private fun getEnergyData() {
-        val call = energyService.getEnergyData()
-        call.enqueue(object : Callback<EnergyData> {
-            override fun onResponse(call: Call<EnergyData>, response: Response<EnergyData>) {
-                if (response.isSuccessful) {
-                    val energyData = response.body()
-                    energyTextView.text = energyData?.energy.toString()
-                }
-            }
-
-            override fun onFailure(call: Call<EnergyData>, t: Throwable) {
-                Toast.makeText(applicationContext, "Error fetching energy data", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
 }
