@@ -2,7 +2,10 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.beevration.R
+import com.example.beevrationapp.database.EnergyHarvesterData
 import com.example.beevrationapp.database.fetchEnergyHarvesterData
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,6 +15,13 @@ class EnergyData : AppCompatActivity() {
     private lateinit var timestampTextView: TextView
     private lateinit var voltageTextView: TextView
     private lateinit var currentTextView: TextView
+    private val database = Firebase.database
+
+    private fun saveEnergyHarvesterData(data: EnergyHarvesterData) {
+        val energyDataRef = database.getReference("energy_data")
+        energyDataRef.push().setValue(data)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +39,8 @@ class EnergyData : AppCompatActivity() {
                 timestampTextView.text = "Timestamp: ${it.timestamp}"
                 voltageTextView.text = "Voltage: ${it.voltage} V"
                 currentTextView.text = "Current: ${it.current} A"
+
+                saveEnergyHarvesterData(it)
             }
         }
     }

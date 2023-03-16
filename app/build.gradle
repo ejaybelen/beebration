@@ -75,7 +75,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-auth:21.1.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.3'
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
